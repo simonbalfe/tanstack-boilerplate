@@ -1,0 +1,13 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "entry": [
+    "src/router.tsx",
+    "src/app/**/*.tsx",
+    "src/actions/**/*.ts",
+    "src/actions/**/*.tsx",
+    "*.config.{ts,mjs,js}"
+  ],
+  "project": ["src/**/*.{ts,tsx}", "*.config.{ts,mjs,js}"],
+  "ignore": ["src/routeTree.gen.ts"],
+  "ignoreDependencies": ["tw-animate-css"]
+}
