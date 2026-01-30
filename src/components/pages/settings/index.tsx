@@ -64,7 +64,7 @@ export function SettingsPage() {
                     <CardContent className="space-y-6">
                         <div className="flex items-center gap-4">
                             <Avatar className="h-16 w-16">
-                                <AvatarImage src={user.image} alt={user.name || 'User'} />
+                                <AvatarImage src={user.image ?? undefined} alt={user.name || 'User'} />
                                 <AvatarFallback>
                                     <User className="h-8 w-8" />
                                 </AvatarFallback>

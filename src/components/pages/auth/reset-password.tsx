@@ -19,9 +19,9 @@ function ResetPasswordForm() {
   const [emailSent, setEmailSent] = useState(false)
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
-  const search = useSearch({ strict: false })
-  const token = search.token as string | undefined
-  const errorParam = search.error as string | undefined
+  const search = useSearch({ from: "/auth/reset-password" })
+  const token = search.token
+  const errorParam = search.error
 
   useEffect(() => {
     if (errorParam === "INVALID_TOKEN") {

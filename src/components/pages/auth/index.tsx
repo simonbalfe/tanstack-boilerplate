@@ -13,8 +13,8 @@ import { Separator } from "@/src/components/ui/separator"
 
 function AuthPageContent() {
   const navigate = useNavigate()
-  const search = useSearch({ strict: false })
-  const callbackUrl = (search.callbackUrl as string | undefined) ?? "/dashboard"
+  const search = useSearch({ from: "/auth" })
+  const callbackUrl = search.callbackUrl ?? "/dashboard"
   const { user, loading: userLoading } = useUser()
 
   useEffect(() => {
