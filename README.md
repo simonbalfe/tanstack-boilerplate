@@ -69,9 +69,9 @@ You need a PostgreSQL database. You can host this on a Hetzner VPS (using Docker
 6.  Add them to your `.env` file:
     ```env
     STRIPE_SECRET_KEY=sk_test_...
-    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...
+    STRIPE_PUBLISHABLE_KEY=pk_test_...
     STRIPE_WEBHOOK_SECRET=whsec_...
-    NEXT_PUBLIC_STRIPE_PRICE_ID=price_...
+    STRIPE_PRICE_ID=price_...
     ```
 
 ### 7. Environment Variables
@@ -80,7 +80,7 @@ Create a `.env` file in the root directory and fill in all the values:
 
 ```env
 NODE_ENV=development
-NEXT_PUBLIC_APP_URL=http://localhost:3000
+APP_URL=http://localhost:3000
 
 # Database
 DATABASE_URL=
@@ -91,9 +91,9 @@ GOOGLE_CLIENT_SECRET=
 
 # Payments (Stripe)
 STRIPE_SECRET_KEY=
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
+STRIPE_PUBLISHABLE_KEY=
 STRIPE_WEBHOOK_SECRET=
-NEXT_PUBLIC_STRIPE_PRICE_ID=
+STRIPE_PRICE_ID=
 
 # Email (Resend)
 RESEND_API_KEY=
@@ -104,8 +104,8 @@ UPSTASH_REDIS_REST_URL=
 UPSTASH_REDIS_REST_TOKEN=
 
 # Analytics (PostHog - Optional)
-NEXT_PUBLIC_POSTHOG_KEY=
-NEXT_PUBLIC_POSTHOG_HOST=https://us.i.posthog.com
+POSTHOG_KEY=
+POSTHOG_HOST=https://us.i.posthog.com
 ```
 
 ### 8. Run the Project

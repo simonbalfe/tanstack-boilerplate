@@ -7,8 +7,8 @@ import env from '@/src/env'
 
 export function PostHogProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
-    posthog.init(env.NEXT_PUBLIC_POSTHOG_KEY, {
-      api_host: env.NEXT_PUBLIC_POSTHOG_HOST,
+    posthog.init(env.POSTHOG_KEY, {
+      api_host: env.POSTHOG_HOST,
       person_profiles: 'identified_only',
       capture_pageview: false,
     })

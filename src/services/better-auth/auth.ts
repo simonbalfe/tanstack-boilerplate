@@ -15,8 +15,8 @@ export const auth = betterAuth({
         provider: "pg",
         schema
     }),
-    baseURL: env.NEXT_PUBLIC_APP_URL,
-    trustedOrigins: [env.NEXT_PUBLIC_APP_URL],
+    baseURL: env.APP_URL,
+    trustedOrigins: [env.APP_URL],
     emailAndPassword: {
         enabled: true,
         autoSignIn: false,

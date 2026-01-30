@@ -4,7 +4,7 @@ import { createCheckoutSession } from '@/src/actions/checkout-session'
 import { authClient } from '@/src/services/better-auth/auth-client'
 import env from '@/src/env'
 
-const stripePromise = loadStripe(env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
+const stripePromise = loadStripe(env.STRIPE_PUBLISHABLE_KEY)
 
 export const useCheckout = (userId: string | undefined, priceId?: string | null) => {
     const [isLoading, setIsLoading] = useState(false)
@@ -25,7 +25,7 @@ export const useCheckout = (userId: string | undefined, priceId?: string | null)
                     email,
                     name,
                     line_item: {
-                        price: priceId ?? env.NEXT_PUBLIC_STRIPE_PRICE_ID,
+                        price: priceId ?? env.STRIPE_PRICE_ID,
                         quantity: 1
                     }
                 }

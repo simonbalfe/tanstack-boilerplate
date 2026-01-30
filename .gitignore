@@ -40,3 +40,4 @@ yarn-error.log*
 
 .env
 .env.prod
+secrets.json

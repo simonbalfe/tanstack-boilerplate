@@ -59,8 +59,8 @@ export const createCheckoutSession = createServerFn({ method: 'POST' })
           },
         ],
         mode: 'subscription',
-        success_url: `${env.NEXT_PUBLIC_APP_URL}/api/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${env.NEXT_PUBLIC_APP_URL}/`,
+        success_url: `${env.APP_URL}/api/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${env.APP_URL}/`,
         subscription_data: {
           metadata: {
             userId: userId,
