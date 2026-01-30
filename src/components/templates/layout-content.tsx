@@ -37,6 +37,7 @@ export const LayoutContent = ({ children }: { children: React.ReactNode }) => {
           <Separator orientation="vertical" className="mr-2 h-4" />
           <span className="text-sm font-medium text-muted-foreground">
             {location.pathname === '/dashboard' && 'Dashboard'}
+            {location.pathname === '/demo' && 'Demo'}
             {location.pathname === '/settings' && 'Settings'}
           </span>
         </header>

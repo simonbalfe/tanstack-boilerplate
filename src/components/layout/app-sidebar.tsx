@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from '@tanstack/react-router'
-import { Home, Settings, Zap, Crown, User as UserIcon, ChevronUp, LogOut } from 'lucide-react'
+import { Home, Settings, Zap, Crown, User as UserIcon, ChevronUp, LogOut, FlaskConical } from 'lucide-react'
 import { useCheckout } from '@/src/components/hooks/use-checkout'
 import { checkSubscription } from '@/src/actions/check-subscription'
 import { useUser } from '@/src/hooks/use-user'
@@ -29,6 +29,7 @@ import {
 
 const navItems = [
   { title: 'Dashboard', url: '/dashboard', icon: Home },
+  { title: 'Demo', url: '/demo', icon: FlaskConical },
   { title: 'Settings', url: '/settings', icon: Settings },
 ]
 
