@@ -102,9 +102,9 @@ export function AppSidebar() {
                     onClick={handleCheckout}
                     disabled={isLoading}
                     tooltip="Upgrade to Pro"
-                    className="bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground"
+                    className="border border-primary/20 bg-primary/10 text-primary hover:bg-primary/15 hover:text-primary"
                   >
-                    <Zap className="size-4" />
+                    <Zap className="size-4 fill-primary" />
                     <span>{isLoading ? 'Loading...' : 'Upgrade to Pro'}</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
