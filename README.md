@@ -123,17 +123,19 @@ POSTHOG_HOST=https://us.i.posthog.com
     pnpm dev
     ```
 
-## Deployment (Hetzner)
+## Deployment (Cloudflare)
 
-To deploy on a Hetzner VPS using Docker:
+```bash
+pnpm deploy
+```
 
-1.  Provision a VPS (e.g., Ubuntu).
-2.  Install Docker and Docker Compose.
-3.  Clone this repository to the server.
-4.  Create your `.env` file with production values.
-5.  Build and run the container:
-    ```bash
-    docker build -t saas-app .
-    docker run -p 3000:3000 --env-file .env saas-app
-    ```
-    *Note: For a production setup, consider using Coolify or a reverse proxy (Nginx/Traefik) with SSL.*
+## Deployment (Docker / VPS)
+
+Build and run with Docker for self-hosting on any VPS:
+
+```bash
+docker build -t saas-app .
+docker run -p 3000:3000 --env-file .env saas-app
+```
+
+Pushes to `main` automatically build and push a Docker image to `ghcr.io` via GitHub Actions.

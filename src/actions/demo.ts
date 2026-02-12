@@ -2,14 +2,12 @@ import { createServerFn } from '@tanstack/react-start'
 import { getRequest } from '@tanstack/react-start/server'
 import { auth } from '@/src/services/better-auth/auth'
 
-// Simulated data store (in a real app, this would be a database)
 const todoStore: Array<{ id: string; text: string; completed: boolean; createdAt: Date }> = [
   { id: '1', text: 'Learn TanStack Router', completed: true, createdAt: new Date('2024-01-01') },
   { id: '2', text: 'Build a demo app', completed: false, createdAt: new Date('2024-01-02') },
   { id: '3', text: 'Deploy to production', completed: false, createdAt: new Date('2024-01-03') },
 ]
 
-// GET: Fetch all todos - demonstrates server-side data fetching
 export const getTodos = createServerFn({ method: 'GET' }).handler(async () => {
   const request = getRequest()
 
@@ -21,7 +19,6 @@ export const getTodos = createServerFn({ method: 'GET' }).handler(async () => {
     return { success: false, error: 'Unauthorized', todos: [] }
   }
 
-  // Simulate network delay to show loading state
   await new Promise((resolve) => setTimeout(resolve, 500))
 
   return {
@@ -33,7 +30,6 @@ export const getTodos = createServerFn({ method: 'GET' }).handler(async () => {
   }
 })
 
-// POST: Add a new todo - demonstrates form submission with validation
 export const addTodo = createServerFn({ method: 'POST' })
   .inputValidator((data: { text: string }) => {
     if (!data.text || data.text.trim().length === 0) {
@@ -55,7 +51,6 @@ export const addTodo = createServerFn({ method: 'POST' })
       return { success: false, error: 'Unauthorized' }
     }
 
-    // Simulate network delay
     await new Promise((resolve) => setTimeout(resolve, 300))
 
     const newTodo = {
@@ -76,7 +71,6 @@ export const addTodo = createServerFn({ method: 'POST' })
     }
   })
 
-// POST: Toggle todo completion - demonstrates updating data
 export const toggleTodo = createServerFn({ method: 'POST' })
   .inputValidator((data: { id: string }) => data)
   .handler(async ({ data }) => {
@@ -106,7 +100,6 @@ export const toggleTodo = createServerFn({ method: 'POST' })
     }
   })
 
-// POST: Delete a todo - demonstrates deletion
 export const deleteTodo = createServerFn({ method: 'POST' })
   .inputValidator((data: { id: string }) => data)
   .handler(async ({ data }) => {
@@ -130,7 +123,6 @@ export const deleteTodo = createServerFn({ method: 'POST' })
     return { success: true }
   })
 
-// GET: Fetch server info - demonstrates simple data fetching
 export const getServerInfo = createServerFn({ method: 'GET' }).handler(async () => {
   const request = getRequest()
 
