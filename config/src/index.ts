@@ -22,3 +22,22 @@ export const config = {
   GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET ?? '',
   APP_URL: process.env.VITE_APP_URL ?? 'http://localhost:3000',
 }
+
+const mask = (v: string) => (v ? `${v.slice(0, 4)}***` : '(empty)')
+
+console.log('[CONFIG] Env vars loaded:', {
+  NODE_ENV: config.NODE_ENV,
+  DATABASE_URL: mask(config.DATABASE_URL),
+  BETTER_AUTH_SECRET: mask(config.BETTER_AUTH_SECRET),
+  STRIPE_SECRET_KEY: mask(config.STRIPE_SECRET_KEY),
+  STRIPE_WEBHOOK_SECRET: mask(config.STRIPE_WEBHOOK_SECRET),
+  UPSTASH_REDIS_REST_URL: mask(config.UPSTASH_REDIS_REST_URL),
+  UPSTASH_REDIS_REST_TOKEN: mask(config.UPSTASH_REDIS_REST_TOKEN),
+  RESEND_API_KEY: mask(config.RESEND_API_KEY),
+  RESEND_FROM: config.RESEND_FROM || '(empty)',
+  GOOGLE_CLIENT_ID: mask(config.GOOGLE_CLIENT_ID),
+  GOOGLE_CLIENT_SECRET: mask(config.GOOGLE_CLIENT_SECRET),
+  APP_URL: config.APP_URL,
+  envFilePath: rootEnvPath,
+  envFileExists: existsSync(rootEnvPath),
+})

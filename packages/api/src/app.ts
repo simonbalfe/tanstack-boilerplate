@@ -9,6 +9,11 @@ import { webhookRoutes } from './routes/webhooks'
 
 export const app = new Hono().basePath('/api')
 
+app.use('*', async (c, next) => {
+  await next()
+  console.log(`[HONO] ${c.req.method} ${c.req.path} -> ${c.res.status}`)
+})
+
 app.route('/', authRoutes)
 app.route('/', checkoutRoutes)
 app.route('/', subscriptionRoutes)
