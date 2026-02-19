@@ -1,0 +1,20 @@
+{
+  "name": "@repo/stripe",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "lint": "biome check ."
+  },
+  "dependencies": {
+    "@repo/config": "workspace:*",
+    "@repo/redis": "workspace:*",
+    "stripe": "^18.5.0"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*"
+  }
+}

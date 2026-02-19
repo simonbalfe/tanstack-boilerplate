@@ -1,0 +1,29 @@
+import { config } from '@repo/config'
+import Stripe from 'stripe'
+
+export const stripe = new Stripe(config.STRIPE_SECRET_KEY, {
+  apiVersion: '2025-08-27.basil',
+})
+
+export const allowedEvents: Stripe.Event.Type[] = [
+  'checkout.session.completed',
+  'customer.subscription.created',
+  'customer.subscription.updated',
+  'customer.subscription.deleted',
+  'customer.subscription.paused',
+  'customer.subscription.resumed',
+  'customer.subscription.pending_update_applied',
+  'customer.subscription.pending_update_expired',
+  'customer.subscription.trial_will_end',
+  'invoice.paid',
+  'invoice.payment_failed',
+  'invoice.payment_action_required',
+  'invoice.upcoming',
+  'invoice.marked_uncollectible',
+  'invoice.payment_succeeded',
+  'payment_intent.succeeded',
+  'payment_intent.payment_failed',
+  'payment_intent.canceled',
+  'payment_intent.requires_action',
+  'payment_method.attached',
+]

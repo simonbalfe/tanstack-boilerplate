@@ -1,0 +1,23 @@
+{
+  "name": "@repo/api",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "lint": "biome check ."
+  },
+  "dependencies": {
+    "@repo/auth": "workspace:*",
+    "@repo/config": "workspace:*",
+    "@repo/db": "workspace:*",
+    "@repo/stripe": "workspace:*",
+    "hono": "^4.7.0",
+    "stripe": "^18.5.0"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*"
+  }
+}

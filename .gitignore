@@ -3,7 +3,7 @@
 .claude/
 
 # dependencies
-/node_modules
+node_modules
 /.pnp
 .pnp.js
 .yarn/install-state.gz
@@ -12,10 +12,13 @@
 # testing
 /coverage
 
+# turborepo
+.turbo
+
 # tanstack start
-/.vinxi
-/.output
-/dist
+.vinxi
+.output
+dist
 
 # production
 /build
