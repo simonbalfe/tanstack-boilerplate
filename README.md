@@ -1,141 +1,155 @@
 # SaaS Boilerplate
 
-A complete SaaS boilerplate with Next.js, Drizzle ORM, Stripe, and Better Auth.
+TanStack Start + BetterAuth + Drizzle ORM + Stripe, deployed to Cloudflare Workers.
 
-## Getting Started
+## Deploy to Cloudflare Workers
 
-Follow these steps to set up your project.
+### 1. Authenticate with Cloudflare
 
-### 1. Buy a Domain (Cloudflare)
+```bash
+npx wrangler login
+```
 
-1.  Go to [Cloudflare](https://www.cloudflare.com/) or your preferred registrar.
-2.  Buy a domain name.
-3.  If you use a different registrar, point your nameservers to Cloudflare for better DNS management (optional but recommended).
+### 2. Set up external services
 
-### 2. Resend (Email)
+Before deploying you need accounts and credentials for each service. Work through these in order:
 
-1.  Go to [Resend](https://resend.com) and sign up.
-2.  Add your domain to Resend and verify the DNS records in Cloudflare.
-3.  Create an API Key.
-4.  Add the following to your `.env` file:
-    ```env
-    RESEND_API_KEY=re_123...
-    RESEND_FROM=onboarding@yourdomain.com
-    ```
+**Domain (Cloudflare)**
+- Register a domain in [Cloudflare Registrar](https://www.cloudflare.com/) or point an existing domain's nameservers to Cloudflare.
 
-### 3. Upstash (Redis)
+**Database (PostgreSQL)**
+- Provision a PostgreSQL database — Neon, Supabase, or a Hetzner VPS work well.
+- Get your connection string: `postgres://user:password@host:port/db`
 
-1.  Go to [Upstash](https://upstash.com/) and create a Redis database.
-2.  Copy the `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN`.
-3.  Add them to your `.env` file:
-    ```env
-    UPSTASH_REDIS_REST_URL=https://...
-    UPSTASH_REDIS_REST_TOKEN=...
-    ```
+**Resend (Email)**
+- Sign up at [Resend](https://resend.com), add your domain, verify DNS records in Cloudflare.
+- Create an API key and note your sending address.
 
-### 4. Database (Postgres on Hetzner)
+**Upstash (Redis)**
+- Create a Redis database at [Upstash](https://upstash.com/).
+- Copy the REST URL and token.
 
-You need a PostgreSQL database. You can host this on a Hetzner VPS (using Docker or manual install) or use a managed provider.
+**Google OAuth**
+- In [Google Cloud Console](https://console.cloud.google.com/), create a project → APIs & Services → Credentials → OAuth client ID.
+- Set authorized redirect URI to `https://yourdomain.com/api/auth/callback/google`.
+- Copy the client ID and secret.
 
-1.  Set up a PostgreSQL database.
-2.  Get the connection string (`postgres://...`).
-3.  Add it to your `.env` file:
-    ```env
-    DATABASE_URL=postgres://user:password@host:port/db
-    ```
+**Stripe (Payments)**
+- In the [Stripe Dashboard](https://stripe.com/), copy your secret key and publishable key.
+- Create a Product and Price, copy the Price ID (`price_...`).
+- Add a webhook endpoint pointing to `https://yourdomain.com/api/webhooks/stripe` and copy the signing secret.
 
-### 5. Google Auth
+### 3. Configure build-time environment variables
 
-1.  Go to the [Google Cloud Console](https://console.cloud.google.com/).
-2.  Create a new project.
-3.  Go to "APIs & Services" > "Credentials".
-4.  Create "OAuth client ID".
-5.  Set "Authorized JavaScript origins" to `http://localhost:3000` (and your production URL).
-6.  Set "Authorized redirect URIs" to `http://localhost:3000/api/auth/callback/google` (and production equivalent).
-7.  Copy the Client ID and Client Secret.
-8.  Add them to your `.env` file:
-    ```env
-    GOOGLE_CLIENT_ID=...
-    GOOGLE_CLIENT_SECRET=...
-    ```
+Client-side `VITE_` variables are baked into the bundle at build time. Create a `.env` file at the root:
 
-### 6. Stripe (Payments)
+```env
+VITE_APP_URL=https://yourdomain.com
+VITE_STRIPE_PUBLISHABLE_KEY=pk_live_...
+VITE_STRIPE_PRICE_ID=price_...
+VITE_POSTHOG_KEY=phc_...
+VITE_POSTHOG_HOST=https://us.i.posthog.com
+```
 
-1.  Go to [Stripe](https://stripe.com/) and create an account.
-2.  Get your API keys (Secret Key and Publishable Key) from the Developer Dashboard.
-3.  Create a Product and Price in Stripe. Copy the Price ID (e.g., `price_...`).
-4.  Set up a Webhook pointing to `http://localhost:3000/api/webhooks/stripe` (use Stripe CLI for local testing: `stripe listen --forward-to localhost:3000/api/webhooks/stripe`).
-5.  Get the Webhook Signing Secret (`whsec_...`).
-6.  Add them to your `.env` file:
-    ```env
-    STRIPE_SECRET_KEY=sk_test_...
-    STRIPE_PUBLISHABLE_KEY=pk_test_...
-    STRIPE_WEBHOOK_SECRET=whsec_...
-    STRIPE_PRICE_ID=price_...
-    ```
+### 4. Build
 
-### 7. Environment Variables
+```bash
+pnpm install
+pnpm db:push
+cd apps/web && pnpm build
+```
 
-Create a `.env` file in the root directory and fill in all the values:
+### 5. Set Worker secrets
+
+Server-side secrets are stored in Cloudflare Workers — never in `.env` for production. Set each one:
+
+```bash
+cd apps/web
+
+echo "your-value" | npx wrangler secret put DATABASE_URL
+echo "your-value" | npx wrangler secret put BETTER_AUTH_SECRET
+echo "your-value" | npx wrangler secret put GOOGLE_CLIENT_ID
+echo "your-value" | npx wrangler secret put GOOGLE_CLIENT_SECRET
+echo "your-value" | npx wrangler secret put STRIPE_SECRET_KEY
+echo "your-value" | npx wrangler secret put STRIPE_WEBHOOK_SECRET
+echo "your-value" | npx wrangler secret put UPSTASH_REDIS_REST_URL
+echo "your-value" | npx wrangler secret put UPSTASH_REDIS_REST_TOKEN
+echo "your-value" | npx wrangler secret put RESEND_API_KEY
+echo "your-value" | npx wrangler secret put RESEND_FROM
+```
+
+Generate a strong `BETTER_AUTH_SECRET`:
+
+```bash
+openssl rand -base64 32
+```
+
+### 6. Deploy
+
+```bash
+cd apps/web && npx wrangler deploy
+```
+
+Or from the root (builds and deploys in one step):
+
+```bash
+cd apps/web && pnpm deploy
+```
+
+### 7. Set your custom domain
+
+In the Cloudflare dashboard → Workers & Pages → your worker → Settings → Domains & Routes, add your custom domain.
+
+---
+
+## Local Development
+
+Create a `.env` file at the root with all variables (server-side included):
 
 ```env
 NODE_ENV=development
-APP_URL=http://localhost:3000
+VITE_APP_URL=http://localhost:3000
 
-# Database
-DATABASE_URL=
+DATABASE_URL=postgres://user:password@host:port/db
+BETTER_AUTH_SECRET=
 
-# Auth (Google)
 GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
 
-# Payments (Stripe)
-STRIPE_SECRET_KEY=
-STRIPE_PUBLISHABLE_KEY=
-STRIPE_WEBHOOK_SECRET=
-STRIPE_PRICE_ID=
+STRIPE_SECRET_KEY=sk_test_...
+VITE_STRIPE_PUBLISHABLE_KEY=pk_test_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+VITE_STRIPE_PRICE_ID=price_...
 
-# Email (Resend)
 RESEND_API_KEY=
-RESEND_FROM=
+RESEND_FROM=onboarding@yourdomain.com
 
-# Redis (Upstash)
 UPSTASH_REDIS_REST_URL=
 UPSTASH_REDIS_REST_TOKEN=
 
-# Analytics (PostHog - Optional)
-POSTHOG_KEY=
-POSTHOG_HOST=https://us.i.posthog.com
+VITE_POSTHOG_KEY=
+VITE_POSTHOG_HOST=https://us.i.posthog.com
 ```
 
-### 8. Run the Project
-
-1.  Install dependencies:
-    ```bash
-    pnpm install
-    ```
-2.  Push the database schema:
-    ```bash
-    pnpm db:push
-    ```
-3.  Run the development server:
-    ```bash
-    pnpm dev
-    ```
-
-## Deployment (Cloudflare)
-
 ```bash
-pnpm deploy
+pnpm install
+pnpm db:push
+pnpm dev
 ```
 
-## Deployment (Docker / VPS)
-
-Build and run with Docker for self-hosting on any VPS:
+For local Stripe webhook testing:
 
 ```bash
-docker build -t saas-app .
-docker run -p 3000:3000 --env-file .env saas-app
+cd apps/web && pnpm stripe
+```
+
+---
+
+## Docker / VPS Deployment
+
+```bash
+pnpm docker:build
+pnpm docker:run
 ```
 
 Pushes to `main` automatically build and push a Docker image to `ghcr.io` via GitHub Actions.
