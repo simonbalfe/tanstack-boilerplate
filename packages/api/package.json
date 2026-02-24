@@ -10,11 +10,14 @@
     "lint": "biome check ."
   },
   "dependencies": {
+    "@hono/standard-validator": "^0.2.2",
     "@repo/auth": "workspace:*",
     "@repo/config": "workspace:*",
     "@repo/db": "workspace:*",
     "@repo/stripe": "workspace:*",
+    "@scalar/hono-api-reference": "^0.9.44",
     "hono": "^4.7.0",
+    "hono-openapi": "^1.2.0",
     "stripe": "^18.5.0"
   },
   "devDependencies": {

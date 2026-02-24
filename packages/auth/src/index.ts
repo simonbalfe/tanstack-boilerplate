@@ -7,7 +7,7 @@ import EmailVerification from '@repo/email/templates/email-verification'
 import PasswordResetEmail from '@repo/email/templates/password-reset'
 import { betterAuth } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
-import { jwt } from 'better-auth/plugins'
+import { jwt, openAPI } from 'better-auth/plugins'
 
 console.log('[AUTH SERVER] BetterAuth config:', {
   baseURL: config.APP_URL,
@@ -90,7 +90,7 @@ export const auth = betterAuth({
       clientSecret: config.GOOGLE_CLIENT_SECRET,
     },
   },
-  plugins: [jwt()],
+  plugins: [jwt(), openAPI()],
   databaseHooks: {
     user: {
       create: {
