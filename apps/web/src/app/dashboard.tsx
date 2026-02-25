@@ -250,7 +250,7 @@ function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="flex-1 overflow-auto">
       <div className="mx-auto max-w-7xl px-6 py-8 space-y-8">
         <div className="flex items-center justify-between">
           <div className="space-y-1">

@@ -8,6 +8,11 @@ import { SidebarInset, SidebarProvider, SidebarTrigger } from '@ui/components/si
 import { Toaster } from '@ui/components/sonner'
 import { Spinner } from '@ui/components/spinner'
 
+const PAGE_TITLES: Record<string, string> = {
+  '/dashboard': 'Dashboard',
+  '/settings': 'Settings',
+}
+
 export const LayoutContent = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation()
   const { user, loading } = useUser()
@@ -18,8 +23,8 @@ export const LayoutContent = ({ children }: { children: React.ReactNode }) => {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-muted">
-        <Spinner className="h-12 w-12 text-primary" />
+      <div className="flex min-h-screen items-center justify-center bg-background">
+        <Spinner className="h-8 w-8 text-primary" />
       </div>
     )
   }
@@ -31,17 +36,15 @@ export const LayoutContent = ({ children }: { children: React.ReactNode }) => {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset>
-        <header className="sticky top-0 z-10 flex h-14 shrink-0 items-center gap-2 border-b bg-background px-4">
-          <SidebarTrigger className="-ml-1" />
-          <Separator orientation="vertical" className="mr-2 h-4" />
-          <span className="text-sm font-medium text-muted-foreground">
-            {location.pathname === '/dashboard' && 'Dashboard'}
-            {location.pathname === '/demo' && 'Demo'}
-            {location.pathname === '/settings' && 'Settings'}
+      <SidebarInset className="h-svh overflow-hidden flex flex-col">
+        <header className="sticky top-0 z-10 flex h-12 shrink-0 items-center gap-2 border-b bg-card px-4">
+          <SidebarTrigger className="-ml-1 size-7 text-muted-foreground hover:text-foreground" />
+          <Separator orientation="vertical" className="mr-1 h-4" />
+          <span className="text-sm font-semibold text-foreground">
+            {PAGE_TITLES[location.pathname] ?? ''}
           </span>
         </header>
-        <main className="flex-1 p-6">{children}</main>
+        <main className="flex-1 overflow-hidden flex flex-col">{children}</main>
       </SidebarInset>
       <Toaster />
     </SidebarProvider>

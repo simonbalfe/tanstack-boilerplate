@@ -23,21 +23,20 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from '@ui/components/sidebar'
+import { cn } from '@ui/lib/utils'
 import {
   ChevronUp,
   Crown,
-  FlaskConical,
   Home,
   LogOut,
   Settings,
+  Sparkles,
   User as UserIcon,
-  Zap,
 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 const navItems = [
   { title: 'Dashboard', url: '/dashboard', icon: Home },
-  { title: 'Demo', url: '/demo', icon: FlaskConical },
   { title: 'Settings', url: '/settings', icon: Settings },
 ]
 
@@ -72,10 +71,14 @@ export function AppSidebar() {
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
               <Link to="/dashboard">
-                <img src="/logo.svg" alt="LaunchStack" className="size-6 shrink-0" />
-                <div className="flex flex-col gap-0.5 leading-none">
-                  <span className="font-medium">LaunchStack</span>
-                  {tier && <span className="text-xs text-muted-foreground">{tier} Plan</span>}
+                <div className="flex size-8 items-center justify-center shrink-0">
+                  <img src="/logo.svg" alt="LaunchStack" className="size-6" />
+                </div>
+                <div className="flex flex-col gap-0 leading-none">
+                  <span className="font-semibold text-sm tracking-tight">LaunchStack</span>
+                  <span className="text-[11px] text-muted-foreground font-normal">
+                    {tier ? `${tier} Plan` : 'SaaS Boilerplate'}
+                  </span>
                 </div>
               </Link>
             </SidebarMenuButton>
@@ -89,9 +92,18 @@ export function AppSidebar() {
             <SidebarMenu>
               {navItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={pathname === item.url} tooltip={item.title}>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={pathname === item.url}
+                    tooltip={item.title}
+                    className={cn(
+                      'rounded-md font-medium text-sm',
+                      pathname === item.url &&
+                        'bg-accent text-primary font-semibold',
+                    )}
+                  >
                     <Link to={item.url}>
-                      <item.icon />
+                      <item.icon className={cn('size-4', pathname === item.url && 'text-primary')} />
                       <span>{item.title}</span>
                     </Link>
                   </SidebarMenuButton>
@@ -100,26 +112,6 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-
-        {!isSubscribed && (
-          <SidebarGroup className="mt-auto">
-            <SidebarGroupContent>
-              <SidebarMenu>
-                <SidebarMenuItem>
-                  <SidebarMenuButton
-                    onClick={handleCheckout}
-                    disabled={isLoading}
-                    tooltip="Upgrade to Pro"
-                    className="border border-primary/20 bg-primary/10 text-primary hover:bg-primary/15 hover:text-primary"
-                  >
-                    <Zap className="size-4 fill-primary" />
-                    <span>{isLoading ? 'Loading...' : 'Upgrade to Pro'}</span>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        )}
       </SidebarContent>
 
       <SidebarFooter>
@@ -131,19 +123,19 @@ export function AppSidebar() {
                   size="lg"
                   className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                 >
-                  <Avatar className="size-8 rounded-lg">
+                  <Avatar className="size-7 rounded-md">
                     <AvatarImage src={user?.image ?? undefined} alt={user?.name ?? 'User'} />
-                    <AvatarFallback className="rounded-lg">
-                      <UserIcon className="size-4" />
+                    <AvatarFallback className="rounded-md bg-primary/10 text-primary text-xs font-semibold">
+                      {user?.name?.charAt(0)?.toUpperCase() ?? <UserIcon className="size-3.5" />}
                     </AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-semibold">{user?.name ?? 'User'}</span>
+                    <span className="truncate font-semibold text-sm">{user?.name ?? 'User'}</span>
                     <span className="truncate text-xs text-muted-foreground">{user?.email}</span>
                   </div>
                   <div className="flex items-center gap-1">
-                    {isSubscribed && <Crown className="size-4 text-primary" />}
-                    <ChevronUp className="size-4" />
+                    {isSubscribed && <Crown className="size-3.5 text-primary" />}
+                    <ChevronUp className="size-4 text-muted-foreground" />
                   </div>
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
@@ -153,6 +145,19 @@ export function AppSidebar() {
                 align="end"
                 sideOffset={4}
               >
+                {!isSubscribed && (
+                  <>
+                    <DropdownMenuItem
+                      onClick={handleCheckout}
+                      disabled={isLoading}
+                      className="cursor-pointer font-semibold text-primary focus:text-primary focus:bg-primary/8"
+                    >
+                      <Sparkles className="mr-2 size-4" />
+                      {isLoading ? 'Loading...' : 'Upgrade to Pro'}
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                  </>
+                )}
                 <DropdownMenuItem asChild>
                   <Link to="/settings" className="cursor-pointer">
                     <Settings className="mr-2 size-4" />

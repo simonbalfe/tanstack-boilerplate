@@ -11,7 +11,6 @@
 import { Route as rootRouteImport } from './app/__root'
 import { Route as TestRouteImport } from './app/test'
 import { Route as SettingsRouteImport } from './app/settings'
-import { Route as DemoRouteImport } from './app/demo'
 import { Route as DashboardRouteImport } from './app/dashboard'
 import { Route as AuthRouteImport } from './app/auth'
 import { Route as IndexRouteImport } from './app/index'
@@ -26,11 +25,6 @@ const TestRoute = TestRouteImport.update({
 const SettingsRoute = SettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DemoRoute = DemoRouteImport.update({
-  id: '/demo',
-  path: '/demo',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRoute = DashboardRouteImport.update({
@@ -63,7 +57,6 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteWithChildren
   '/dashboard': typeof DashboardRoute
-  '/demo': typeof DemoRoute
   '/settings': typeof SettingsRoute
   '/test': typeof TestRoute
   '/api/$': typeof ApiSplatRoute
@@ -73,7 +66,6 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteWithChildren
   '/dashboard': typeof DashboardRoute
-  '/demo': typeof DemoRoute
   '/settings': typeof SettingsRoute
   '/test': typeof TestRoute
   '/api/$': typeof ApiSplatRoute
@@ -84,7 +76,6 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteWithChildren
   '/dashboard': typeof DashboardRoute
-  '/demo': typeof DemoRoute
   '/settings': typeof SettingsRoute
   '/test': typeof TestRoute
   '/api/$': typeof ApiSplatRoute
@@ -96,7 +87,6 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/dashboard'
-    | '/demo'
     | '/settings'
     | '/test'
     | '/api/$'
@@ -106,7 +96,6 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/dashboard'
-    | '/demo'
     | '/settings'
     | '/test'
     | '/api/$'
@@ -116,7 +105,6 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/dashboard'
-    | '/demo'
     | '/settings'
     | '/test'
     | '/api/$'
@@ -127,7 +115,6 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRouteWithChildren
   DashboardRoute: typeof DashboardRoute
-  DemoRoute: typeof DemoRoute
   SettingsRoute: typeof SettingsRoute
   TestRoute: typeof TestRoute
   ApiSplatRoute: typeof ApiSplatRoute
@@ -147,13 +134,6 @@ declare module '@tanstack/react-router' {
       path: '/settings'
       fullPath: '/settings'
       preLoaderRoute: typeof SettingsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/demo': {
-      id: '/demo'
-      path: '/demo'
-      fullPath: '/demo'
-      preLoaderRoute: typeof DemoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard': {
@@ -208,7 +188,6 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRouteWithChildren,
   DashboardRoute: DashboardRoute,
-  DemoRoute: DemoRoute,
   SettingsRoute: SettingsRoute,
   TestRoute: TestRoute,
   ApiSplatRoute: ApiSplatRoute,
