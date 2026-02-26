@@ -1,29 +1,28 @@
-import { useUser } from '@shared/hooks/use-user'
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import { Loader2 } from 'lucide-react'
-import { useEffect } from 'react'
+import { CtaSection } from '@shared/components/marketing/cta-section'
+import { FeaturesSection } from '@shared/components/marketing/features-section'
+import { Footer } from '@shared/components/marketing/footer'
+import { HeroSection } from '@shared/components/marketing/hero-section'
+import { HowItWorksSection } from '@shared/components/marketing/how-it-works-section'
+import { Navbar } from '@shared/components/marketing/navbar'
+import { TechStackSection } from '@shared/components/marketing/tech-stack-section'
+import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/')({
-  component: HomePage,
+  component: LandingPage,
 })
 
-function HomePage() {
-  const navigate = useNavigate()
-  const { user, loading } = useUser()
-
-  useEffect(() => {
-    if (!loading) {
-      if (user) {
-        void navigate({ to: '/dashboard' })
-      } else {
-        void navigate({ to: '/auth' })
-      }
-    }
-  }, [user, loading, navigate])
-
+function LandingPage() {
   return (
-    <div className="flex items-center justify-center min-h-screen">
-      <Loader2 className="h-8 w-8 animate-spin text-primary" />
+    <div className="min-h-screen bg-background">
+      <Navbar />
+      <main>
+        <HeroSection />
+        <FeaturesSection />
+        <HowItWorksSection />
+        <TechStackSection />
+        <CtaSection />
+      </main>
+      <Footer />
     </div>
   )
 }

@@ -17,7 +17,7 @@ export const LayoutContent = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation()
   const { user, loading } = useUser()
 
-  if (location.pathname.startsWith('/auth')) {
+  if (location.pathname === '/' || location.pathname.startsWith('/auth')) {
     return <>{children}</>
   }
 

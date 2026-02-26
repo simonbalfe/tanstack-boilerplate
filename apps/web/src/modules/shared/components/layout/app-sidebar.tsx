@@ -70,7 +70,7 @@ export function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <Link to="/dashboard">
+              <Link to="/">
                 <div className="flex size-8 items-center justify-center shrink-0">
                   <img src="/logo.svg" alt="LaunchStack" className="size-6" />
                 </div>
