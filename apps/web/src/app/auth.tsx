@@ -4,12 +4,7 @@ import { createFileRoute, useNavigate, useSearch } from '@tanstack/react-router'
 import { Alert, AlertDescription } from '@ui/components/alert'
 import { Button } from '@ui/components/button'
 import { Card, CardContent } from '@ui/components/card'
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupButton,
-  InputGroupInput,
-} from '@ui/components/input-group'
+import { Input } from '@ui/components/input'
 import { Separator } from '@ui/components/separator'
 import { Eye, EyeOff, Loader2, Lock, Mail, User } from 'lucide-react'
 import { Suspense, useEffect, useState } from 'react'
@@ -258,55 +253,50 @@ function AuthPageContent() {
             )}
 
             {isSignUp && (
-              <InputGroup>
-                <InputGroupAddon align="inline-start">
-                  <User className="h-4 w-4" />
-                </InputGroupAddon>
-                <InputGroupInput
+              <div className="relative">
+                <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Input
                   type="text"
                   placeholder="Full Name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
+                  className="pl-9"
                 />
-              </InputGroup>
+              </div>
             )}
 
-            <InputGroup>
-              <InputGroupAddon align="inline-start">
-                <Mail className="h-4 w-4" />
-              </InputGroupAddon>
-              <InputGroupInput
+            <div className="relative">
+              <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
                 type="email"
                 placeholder="name@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                className="pl-9"
               />
-            </InputGroup>
+            </div>
 
             <div className="space-y-2">
-              <InputGroup>
-                <InputGroupAddon align="inline-start">
-                  <Lock className="h-4 w-4" />
-                </InputGroupAddon>
-                <InputGroupInput
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Input
                   type={showPassword ? 'text' : 'password'}
                   placeholder="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
+                  className="pl-9 pr-9"
                 />
-                <InputGroupAddon align="inline-end">
-                  <InputGroupButton
-                    type="button"
-                    size="icon-xs"
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                  </InputGroupButton>
-                </InputGroupAddon>
-              </InputGroup>
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                >
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
+              </div>
               {!isSignUp && (
                 <div className="flex justify-end">
                   <a

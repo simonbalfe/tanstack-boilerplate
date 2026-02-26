@@ -160,19 +160,3 @@
     @apply bg-background text-foreground;
   }
 }
-
-[data-slot="button"][data-variant="default"] {
-  background-color: var(--primary);
-  color: var(--primary-foreground);
-  font-weight: 600;
-  box-shadow: 0 1px 2px 0 hsl(0 0% 0% / 0.06), inset 0 1px 0 0 hsl(0 0% 100% / 0.08);
-}
-
-[data-slot="button"][data-variant="default"]:hover {
-  background-color: color-mix(in oklch, var(--primary) 85%, black);
-}
-
-[data-slot="button"] {
-  border-radius: var(--radius-md);
-  font-weight: 500;
-}
