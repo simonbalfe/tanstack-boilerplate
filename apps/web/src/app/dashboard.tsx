@@ -1,3 +1,4 @@
+import { ThemeToggle } from '@shared/components/theme-toggle'
 import { useUser } from '@shared/hooks/use-user'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { Badge } from '@ui/components/badge'
@@ -256,10 +257,13 @@ function DashboardPage() {
               Welcome back, {user.name?.split(' ')[0] ?? 'there'}
             </p>
           </div>
-          <Button className="gap-2">
-            <Plus className="h-4 w-4" />
-            Quick Create
-          </Button>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <Button className="gap-2">
+              <Plus className="h-4 w-4" />
+              Quick Create
+            </Button>
+          </div>
         </div>
 
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">

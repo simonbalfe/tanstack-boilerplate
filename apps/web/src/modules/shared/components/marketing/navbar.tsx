@@ -1,3 +1,4 @@
+import { ThemeToggle } from '@shared/components/theme-toggle'
 import { useUser } from '@shared/hooks/use-user'
 import { Link } from '@tanstack/react-router'
 import { Button } from '@ui/components/button'
@@ -41,7 +42,8 @@ export function Navbar() {
           </a>
         </nav>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
           {user ? (
             <Button asChild size="sm">
               <Link to="/dashboard">Dashboard</Link>

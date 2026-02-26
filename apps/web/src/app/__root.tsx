@@ -1,9 +1,12 @@
 import { LayoutContent } from '@shared/components/layout/layout-content'
 import { PostHogProvider } from '@shared/components/providers/posthog-provider'
+import { ThemeProvider } from '@shared/components/providers/theme-provider'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { HeadContent, Outlet, Scripts, createRootRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 import '@/src/globals.css'
+
+const THEME_SCRIPT = `(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||(t!=='light'&&window.matchMedia('(prefers-color-scheme:dark)').matches)){document.documentElement.classList.add('dark')}}catch(e){}})();`
 
 export const Route = createRootRoute({
   head: () => ({
@@ -27,14 +30,17 @@ function RootLayout() {
     <html lang="en" suppressHydrationWarning>
       <head>
         <HeadContent />
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
       </head>
-      <body suppressHydrationWarning className="font-primary">
+      <body suppressHydrationWarning>
         <QueryClientProvider client={queryClient}>
-          <PostHogProvider>
-            <LayoutContent>
-              <Outlet />
-            </LayoutContent>
-          </PostHogProvider>
+          <ThemeProvider>
+            <PostHogProvider>
+              <LayoutContent>
+                <Outlet />
+              </LayoutContent>
+            </PostHogProvider>
+          </ThemeProvider>
         </QueryClientProvider>
         <Scripts />
       </body>

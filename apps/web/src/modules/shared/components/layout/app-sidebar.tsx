@@ -1,3 +1,4 @@
+import { useTheme } from '@shared/components/providers/theme-provider'
 import { useUser } from '@shared/hooks/use-user'
 import { authClient } from '@shared/lib/auth-client'
 import { useCheckout } from '@shared/lib/checkout-api'
@@ -29,8 +30,10 @@ import {
   Crown,
   Home,
   LogOut,
+  Moon,
   Settings,
   Sparkles,
+  Sun,
   User as UserIcon,
 } from 'lucide-react'
 import { useEffect, useState } from 'react'
@@ -44,6 +47,7 @@ export function AppSidebar() {
   const location = useLocation()
   const pathname = location.pathname
   const { user } = useUser()
+  const { theme, setTheme } = useTheme()
   const { handleCheckout, isLoading } = useCheckout(user?.id)
   const [isSubscribed, setIsSubscribed] = useState<boolean | null>(null)
   const [tier, setTier] = useState<string | null>(null)
@@ -162,6 +166,14 @@ export function AppSidebar() {
                     <Settings className="mr-2 size-4" />
                     Settings
                   </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                  className="cursor-pointer"
+                >
+                  <Sun className="mr-2 size-4 dark:hidden" />
+                  <Moon className="mr-2 hidden size-4 dark:block" />
+                  {theme === 'dark' ? 'Light mode' : 'Dark mode'}
                 </DropdownMenuItem>
                 {tier && (
                   <DropdownMenuItem disabled>
