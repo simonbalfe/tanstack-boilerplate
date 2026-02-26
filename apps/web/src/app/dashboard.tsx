@@ -14,6 +14,7 @@ import { Tabs, TabsList, TabsTrigger } from '@ui/components/tabs'
 import {
   Activity,
   Check,
+  CreditCard,
   DollarSign,
   Loader2,
   MoreVertical,
@@ -39,14 +40,6 @@ const visitorData = [
   { date: 'Jun 30', visitors: 420, revenue: 500 },
 ]
 
-const barChartData = [
-  { name: 'Jan', chart1: 400, chart2: 240, chart3: 180 },
-  { name: 'Feb', chart1: 300, chart2: 139, chart3: 220 },
-  { name: 'Mar', chart1: 200, chart2: 380, chart3: 250 },
-  { name: 'Apr', chart1: 278, chart2: 390, chart3: 190 },
-  { name: 'May', chart1: 189, chart2: 480, chart3: 280 },
-]
-
 const chartConfig = {
   visitors: {
     label: 'Visitors',
@@ -58,6 +51,14 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
+const barChartData = [
+  { name: 'Jan', chart1: 400, chart2: 240, chart3: 180 },
+  { name: 'Feb', chart1: 300, chart2: 139, chart3: 220 },
+  { name: 'Mar', chart1: 200, chart2: 380, chart3: 250 },
+  { name: 'Apr', chart1: 278, chart2: 390, chart3: 190 },
+  { name: 'May', chart1: 189, chart2: 480, chart3: 280 },
+]
+
 const barChartConfig = {
   chart1: { label: 'Chart 1', color: 'var(--chart-1)' },
   chart2: { label: 'Chart 2', color: 'var(--chart-2)' },
@@ -68,25 +69,21 @@ const coreColors = [
   { name: 'background', variable: '--background', class: 'bg-background' },
   { name: 'foreground', variable: '--foreground', class: 'bg-foreground' },
   { name: 'primary', variable: '--primary', class: 'bg-primary' },
-  { name: 'primary-foreground', variable: '--primary-foreground', class: 'bg-primary-foreground' },
+  { name: 'primary-fg', variable: '--primary-foreground', class: 'bg-primary-foreground' },
   { name: 'secondary', variable: '--secondary', class: 'bg-secondary' },
-  {
-    name: 'secondary-foreground',
-    variable: '--secondary-foreground',
-    class: 'bg-secondary-foreground',
-  },
+  { name: 'secondary-fg', variable: '--secondary-foreground', class: 'bg-secondary-foreground' },
   { name: 'muted', variable: '--muted', class: 'bg-muted' },
-  { name: 'muted-foreground', variable: '--muted-foreground', class: 'bg-muted-foreground' },
+  { name: 'muted-fg', variable: '--muted-foreground', class: 'bg-muted-foreground' },
   { name: 'accent', variable: '--accent', class: 'bg-accent' },
-  { name: 'accent-foreground', variable: '--accent-foreground', class: 'bg-accent-foreground' },
+  { name: 'accent-fg', variable: '--accent-foreground', class: 'bg-accent-foreground' },
   { name: 'destructive', variable: '--destructive', class: 'bg-destructive' },
 ]
 
 const surfaceColors = [
   { name: 'card', variable: '--card', class: 'bg-card' },
-  { name: 'card-foreground', variable: '--card-foreground', class: 'bg-card-foreground' },
+  { name: 'card-fg', variable: '--card-foreground', class: 'bg-card-foreground' },
   { name: 'popover', variable: '--popover', class: 'bg-popover' },
-  { name: 'popover-foreground', variable: '--popover-foreground', class: 'bg-popover-foreground' },
+  { name: 'popover-fg', variable: '--popover-foreground', class: 'bg-popover-foreground' },
 ]
 
 const chartColors = [
@@ -105,7 +102,7 @@ const utilityColors = [
 
 const sidebarColors = [
   { name: 'sidebar', variable: '--sidebar', class: 'bg-sidebar' },
-  { name: 'sidebar-foreground', variable: '--sidebar-foreground', class: 'bg-sidebar-foreground' },
+  { name: 'sidebar-fg', variable: '--sidebar-foreground', class: 'bg-sidebar-foreground' },
   { name: 'sidebar-primary', variable: '--sidebar-primary', class: 'bg-sidebar-primary' },
   { name: 'sidebar-accent', variable: '--sidebar-accent', class: 'bg-sidebar-accent' },
   { name: 'sidebar-border', variable: '--sidebar-border', class: 'bg-sidebar-border' },
@@ -128,6 +125,22 @@ const radiusSizes = [
   { name: 'lg', class: 'rounded-lg', size: 'var(--radius)' },
   { name: 'xl', class: 'rounded-xl', size: 'calc(var(--radius) + 4px)' },
 ]
+
+function ColorSwatch({
+  name,
+  variable,
+  colorClass,
+}: { name: string; variable: string; colorClass: string }) {
+  return (
+    <div className="flex flex-col gap-2">
+      <div className={`h-14 w-full rounded-lg border ${colorClass}`} />
+      <div className="space-y-0.5">
+        <p className="text-xs font-medium">{name}</p>
+        <p className="text-[10px] text-muted-foreground font-mono leading-tight">{variable}</p>
+      </div>
+    </div>
+  )
+}
 
 const documentSections = [
   {
@@ -172,43 +185,38 @@ const documentSections = [
   },
 ]
 
-function ColorSwatch({
-  name,
-  variable,
-  colorClass,
-}: { name: string; variable: string; colorClass: string }) {
-  return (
-    <div className="flex flex-col gap-2">
-      <div className={`h-16 w-full rounded-lg border ${colorClass}`} />
-      <div className="space-y-0.5">
-        <p className="text-sm font-medium">{name}</p>
-        <p className="text-xs text-muted-foreground font-mono">{variable}</p>
-      </div>
-    </div>
-  )
-}
-
 function StatCard({
   title,
   value,
   description,
-  subtext,
   trend,
   trendValue,
+  icon: Icon,
 }: {
   title: string
   value: string
   description: string
-  subtext: string
   trend: 'up' | 'down'
   trendValue: string
+  icon: React.ComponentType<{ className?: string }>
 }) {
   return (
     <Card>
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
           <CardDescription className="text-sm">{title}</CardDescription>
-          <Badge variant={trend === 'up' ? 'default' : 'secondary'} className="gap-1 text-xs">
+          <div className="rounded-lg bg-primary/10 p-2">
+            <Icon className="h-4 w-4 text-primary" />
+          </div>
+        </div>
+      </CardHeader>
+      <CardContent className="space-y-1">
+        <p className="text-3xl font-semibold tracking-tight">{value}</p>
+        <div className="flex items-center gap-1.5 text-sm">
+          <Badge
+            variant={trend === 'up' ? 'default' : 'secondary'}
+            className="gap-0.5 px-1.5 py-0 text-xs font-medium"
+          >
             {trend === 'up' ? (
               <TrendingUp className="h-3 w-3" />
             ) : (
@@ -216,19 +224,8 @@ function StatCard({
             )}
             {trendValue}
           </Badge>
+          <span className="text-muted-foreground">{description}</span>
         </div>
-      </CardHeader>
-      <CardContent className="space-y-2">
-        <p className="text-3xl font-semibold tracking-tight">{value}</p>
-        <div className="flex items-center gap-1 text-sm text-muted-foreground">
-          <span>{description}</span>
-          {trend === 'up' ? (
-            <TrendingUp className="h-4 w-4" />
-          ) : (
-            <TrendingDown className="h-4 w-4" />
-          )}
-        </div>
-        <p className="text-xs text-muted-foreground">{subtext}</p>
       </CardContent>
     </Card>
   )
@@ -254,8 +251,10 @@ function DashboardPage() {
       <div className="mx-auto max-w-7xl px-6 py-8 space-y-8">
         <div className="flex items-center justify-between">
           <div className="space-y-1">
-            <h1 className="text-2xl font-semibold">Design System</h1>
-            <p className="text-muted-foreground">Showcasing all design tokens from globals.css</p>
+            <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
+            <p className="text-sm text-muted-foreground">
+              Welcome back, {user.name?.split(' ')[0] ?? 'there'}
+            </p>
           </div>
           <Button className="gap-2">
             <Plus className="h-4 w-4" />
@@ -267,34 +266,34 @@ function DashboardPage() {
           <StatCard
             title="Total Revenue"
             value="$1,250.00"
-            description="Trending up this month"
-            subtext="Visitors for the last 6 months"
+            description="from last month"
             trend="up"
             trendValue="+12.5%"
+            icon={DollarSign}
           />
           <StatCard
             title="New Customers"
             value="1,234"
-            description="Down 20% this period"
-            subtext="Acquisition needs attention"
+            description="from last month"
             trend="down"
             trendValue="-20%"
+            icon={Users}
           />
           <StatCard
             title="Active Accounts"
             value="45,678"
-            description="Strong user retention"
-            subtext="Engagement exceed targets"
+            description="from last month"
             trend="up"
             trendValue="+12.5%"
+            icon={CreditCard}
           />
           <StatCard
             title="Growth Rate"
             value="4.5%"
-            description="Steady performance increase"
-            subtext="Meets growth projections"
+            description="from last quarter"
             trend="up"
             trendValue="+4.5%"
+            icon={Activity}
           />
         </div>
 
@@ -409,7 +408,7 @@ function DashboardPage() {
                     <TableCell>
                       <div className="flex items-center gap-2">
                         {section.status === 'Done' ? (
-                          <Check className="h-4 w-4 text-green-500" />
+                          <Check className="h-4 w-4 text-primary" />
                         ) : section.status === 'In Process' ? (
                           <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
                         ) : (
@@ -417,7 +416,7 @@ function DashboardPage() {
                         )}
                         <span
                           className={
-                            section.status === 'Done' ? 'text-green-500' : 'text-muted-foreground'
+                            section.status === 'Done' ? 'text-primary' : 'text-muted-foreground'
                           }
                         >
                           {section.status}
@@ -440,13 +439,20 @@ function DashboardPage() {
         </Card>
 
         <div className="space-y-6">
-          <h2 className="text-xl font-semibold">Design Tokens</h2>
+          <div className="space-y-1">
+            <h2 className="text-xl font-semibold tracking-tight">Design Tokens</h2>
+            <p className="text-sm text-muted-foreground">
+              Every token defined in globals.css — colors, typography, radius, and shadows
+            </p>
+          </div>
 
-          <div className="grid gap-6 lg:grid-cols-2">
+          <div className="grid gap-4 lg:grid-cols-2">
             <Card>
               <CardHeader>
                 <CardTitle>Core Colors</CardTitle>
-                <CardDescription>Primary semantic colors for the design system</CardDescription>
+                <CardDescription>
+                  Primary semantic colors — indigo brand with blue-tinted neutrals
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-3 sm:grid-cols-4 gap-4">
@@ -465,7 +471,9 @@ function DashboardPage() {
             <Card>
               <CardHeader>
                 <CardTitle>Chart Colors</CardTitle>
-                <CardDescription>Colors optimized for data visualization</CardDescription>
+                <CardDescription>
+                  5 hues spread across the color wheel — indigo, teal, purple, amber, coral
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="grid grid-cols-5 gap-4">
@@ -478,7 +486,7 @@ function DashboardPage() {
                     />
                   ))}
                 </div>
-                <ChartContainer config={barChartConfig} className="h-[150px] w-full">
+                <ChartContainer config={barChartConfig} className="h-[140px] w-full">
                   <BarChart data={barChartData}>
                     <XAxis dataKey="name" tickLine={false} axisLine={false} tickMargin={8} />
                     <ChartTooltip content={<ChartTooltipContent />} />
@@ -493,7 +501,7 @@ function DashboardPage() {
             <Card>
               <CardHeader>
                 <CardTitle>Surface Colors</CardTitle>
-                <CardDescription>Colors for cards, popovers, and elevated surfaces</CardDescription>
+                <CardDescription>Cards, popovers, and elevated surfaces</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -512,7 +520,7 @@ function DashboardPage() {
             <Card>
               <CardHeader>
                 <CardTitle>Utility Colors</CardTitle>
-                <CardDescription>Border, input, and focus ring colors</CardDescription>
+                <CardDescription>Border, input, and focus ring tokens</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-3 gap-4">
@@ -532,7 +540,7 @@ function DashboardPage() {
           <Card>
             <CardHeader>
               <CardTitle>Sidebar Colors</CardTitle>
-              <CardDescription>Dedicated color tokens for sidebar navigation</CardDescription>
+              <CardDescription>Dedicated sidebar navigation tokens</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
@@ -548,29 +556,31 @@ function DashboardPage() {
             </CardContent>
           </Card>
 
-          <div className="grid gap-6 lg:grid-cols-2">
+          <div className="grid gap-4 lg:grid-cols-2">
             <Card>
               <CardHeader>
                 <CardTitle>Typography</CardTitle>
-                <CardDescription>Font families configured in the design system</CardDescription>
+                <CardDescription>
+                  --font-sans, --font-mono, --font-serif from globals.css
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="space-y-4">
-                  <div className="space-y-2">
+                  <div className="space-y-1.5">
                     <p className="text-xs text-muted-foreground font-mono">--font-sans</p>
-                    <p className="text-2xl font-sans">
+                    <p className="text-xl font-sans">
                       The quick brown fox jumps over the lazy dog
                     </p>
                   </div>
-                  <div className="space-y-2">
+                  <div className="space-y-1.5">
                     <p className="text-xs text-muted-foreground font-mono">--font-mono</p>
-                    <p className="text-2xl font-mono">
+                    <p className="text-xl font-mono">
                       The quick brown fox jumps over the lazy dog
                     </p>
                   </div>
-                  <div className="space-y-2">
+                  <div className="space-y-1.5">
                     <p className="text-xs text-muted-foreground font-mono">--font-serif</p>
-                    <p className="text-2xl font-serif">
+                    <p className="text-xl font-serif">
                       The quick brown fox jumps over the lazy dog
                     </p>
                   </div>
@@ -581,16 +591,18 @@ function DashboardPage() {
             <Card>
               <CardHeader>
                 <CardTitle>Border Radius</CardTitle>
-                <CardDescription>Radius tokens from --radius base value</CardDescription>
+                <CardDescription>
+                  Derived from --radius: 0.625rem base value
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-4 gap-4">
                   {radiusSizes.map((radius) => (
                     <div key={radius.name} className="space-y-2">
-                      <div className={`h-16 w-full bg-primary ${radius.class}`} />
+                      <div className={`h-14 w-full bg-primary ${radius.class}`} />
                       <div className="space-y-0.5">
-                        <p className="text-sm font-medium">{radius.name}</p>
-                        <p className="text-xs text-muted-foreground font-mono">{radius.size}</p>
+                        <p className="text-xs font-medium">{radius.name}</p>
+                        <p className="text-[10px] text-muted-foreground font-mono">{radius.size}</p>
                       </div>
                     </div>
                   ))}
@@ -602,7 +614,9 @@ function DashboardPage() {
           <Card>
             <CardHeader>
               <CardTitle>Shadow Scale</CardTitle>
-              <CardDescription>Box shadow tokens from 2xs to 2xl</CardDescription>
+              <CardDescription>
+                8-step shadow progression — each level doubles the blur distance
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-6">
@@ -610,8 +624,8 @@ function DashboardPage() {
                   <div key={shadow.name} className="space-y-2">
                     <div className={`h-16 w-full bg-card rounded-lg border ${shadow.class}`} />
                     <div className="space-y-0.5">
-                      <p className="text-sm font-medium">{shadow.name}</p>
-                      <p className="text-xs text-muted-foreground font-mono">{shadow.class}</p>
+                      <p className="text-xs font-medium">{shadow.name}</p>
+                      <p className="text-[10px] text-muted-foreground font-mono">{shadow.class}</p>
                     </div>
                   </div>
                 ))}
@@ -621,12 +635,14 @@ function DashboardPage() {
 
           <Card>
             <CardHeader>
-              <CardTitle>Component Showcase</CardTitle>
-              <CardDescription>Interactive examples using design tokens</CardDescription>
+              <CardTitle>Components</CardTitle>
+              <CardDescription>Buttons and badges using the design tokens above</CardDescription>
             </CardHeader>
             <CardContent className="space-y-8">
               <div className="space-y-3">
-                <h3 className="text-sm font-medium text-muted-foreground">Buttons</h3>
+                <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                  Buttons
+                </h3>
                 <div className="flex flex-wrap gap-3">
                   <Button>Primary</Button>
                   <Button variant="secondary">Secondary</Button>
@@ -638,57 +654,14 @@ function DashboardPage() {
               </div>
 
               <div className="space-y-3">
-                <h3 className="text-sm font-medium text-muted-foreground">Badges</h3>
+                <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                  Badges
+                </h3>
                 <div className="flex flex-wrap gap-3">
                   <Badge>Default</Badge>
                   <Badge variant="secondary">Secondary</Badge>
                   <Badge variant="destructive">Destructive</Badge>
                   <Badge variant="outline">Outline</Badge>
-                </div>
-              </div>
-
-              <div className="space-y-3">
-                <h3 className="text-sm font-medium text-muted-foreground">Card States</h3>
-                <div className="grid sm:grid-cols-3 gap-4">
-                  <Card className="bg-card">
-                    <CardContent className="pt-6">
-                      <div className="flex items-center gap-3">
-                        <div className="h-10 w-10 rounded-full bg-primary flex items-center justify-center">
-                          <DollarSign className="h-5 w-5 text-primary-foreground" />
-                        </div>
-                        <div>
-                          <p className="font-medium">Card</p>
-                          <p className="text-sm text-muted-foreground">bg-card token</p>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                  <Card className="bg-muted">
-                    <CardContent className="pt-6">
-                      <div className="flex items-center gap-3">
-                        <div className="h-10 w-10 rounded-full bg-secondary flex items-center justify-center">
-                          <Users className="h-5 w-5 text-secondary-foreground" />
-                        </div>
-                        <div>
-                          <p className="font-medium">Muted</p>
-                          <p className="text-sm text-muted-foreground">bg-muted token</p>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                  <Card className="bg-accent">
-                    <CardContent className="pt-6">
-                      <div className="flex items-center gap-3">
-                        <div className="h-10 w-10 rounded-full bg-accent-foreground flex items-center justify-center">
-                          <Activity className="h-5 w-5 text-accent" />
-                        </div>
-                        <div>
-                          <p className="font-medium">Accent</p>
-                          <p className="text-sm text-muted-foreground">bg-accent token</p>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
                 </div>
               </div>
             </CardContent>

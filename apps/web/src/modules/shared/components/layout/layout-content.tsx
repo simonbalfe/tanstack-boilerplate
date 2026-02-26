@@ -37,10 +37,10 @@ export const LayoutContent = ({ children }: { children: React.ReactNode }) => {
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset className="h-svh overflow-hidden flex flex-col">
-        <header className="sticky top-0 z-10 flex h-12 shrink-0 items-center gap-2 border-b bg-card px-4">
-          <SidebarTrigger className="-ml-1 size-7 text-muted-foreground hover:text-foreground" />
+        <header className="sticky top-0 z-10 flex h-14 shrink-0 items-center gap-2 border-b bg-background/95 backdrop-blur-sm px-4">
+          <SidebarTrigger className="-ml-1 size-7 text-muted-foreground hover:text-foreground transition-colors" />
           <Separator orientation="vertical" className="mr-1 h-4" />
-          <span className="text-sm font-semibold text-foreground">
+          <span className="text-sm font-medium text-foreground/80">
             {PAGE_TITLES[location.pathname] ?? ''}
           </span>
         </header>

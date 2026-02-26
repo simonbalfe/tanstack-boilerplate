@@ -74,9 +74,9 @@ export function AppSidebar() {
                 <div className="flex size-8 items-center justify-center shrink-0">
                   <img src="/logo.svg" alt="LaunchStack" className="size-6" />
                 </div>
-                <div className="flex flex-col gap-0 leading-none">
+                <div className="flex flex-col gap-0.5 leading-none">
                   <span className="font-semibold text-sm tracking-tight">LaunchStack</span>
-                  <span className="text-[11px] text-muted-foreground font-normal">
+                  <span className="text-xs text-muted-foreground">
                     {tier ? `${tier} Plan` : 'SaaS Boilerplate'}
                   </span>
                 </div>
@@ -89,7 +89,7 @@ export function AppSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu className="gap-0.5">
               {navItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
@@ -97,13 +97,12 @@ export function AppSidebar() {
                     isActive={pathname === item.url}
                     tooltip={item.title}
                     className={cn(
-                      'rounded-md font-medium text-sm',
-                      pathname === item.url &&
-                        'bg-accent text-primary font-semibold',
+                      'h-9 rounded-md text-[0.9375rem] font-normal gap-3 text-foreground/70 transition-colors',
+                      pathname === item.url && 'text-foreground font-medium bg-accent',
                     )}
                   >
                     <Link to={item.url}>
-                      <item.icon className={cn('size-4', pathname === item.url && 'text-primary')} />
+                      <item.icon className="size-[1.125rem] stroke-[1.75]" />
                       <span>{item.title}</span>
                     </Link>
                   </SidebarMenuButton>
@@ -125,12 +124,12 @@ export function AppSidebar() {
                 >
                   <Avatar className="size-7 rounded-md">
                     <AvatarImage src={user?.image ?? undefined} alt={user?.name ?? 'User'} />
-                    <AvatarFallback className="rounded-md bg-primary/10 text-primary text-xs font-semibold">
+                    <AvatarFallback className="rounded-md bg-primary/10 text-primary text-xs font-medium">
                       {user?.name?.charAt(0)?.toUpperCase() ?? <UserIcon className="size-3.5" />}
                     </AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-semibold text-sm">{user?.name ?? 'User'}</span>
+                    <span className="truncate font-medium text-sm">{user?.name ?? 'User'}</span>
                     <span className="truncate text-xs text-muted-foreground">{user?.email}</span>
                   </div>
                   <div className="flex items-center gap-1">
@@ -150,7 +149,7 @@ export function AppSidebar() {
                     <DropdownMenuItem
                       onClick={handleCheckout}
                       disabled={isLoading}
-                      className="cursor-pointer font-semibold text-primary focus:text-primary focus:bg-primary/8"
+                      className="cursor-pointer font-medium text-primary focus:text-primary focus:bg-primary/8"
                     >
                       <Sparkles className="mr-2 size-4" />
                       {isLoading ? 'Loading...' : 'Upgrade to Pro'}

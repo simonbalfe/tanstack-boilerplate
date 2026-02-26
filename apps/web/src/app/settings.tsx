@@ -15,7 +15,6 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@ui/components/avatar'
 import { Button } from '@ui/components/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@ui/components/card'
-import { Separator } from '@ui/components/separator'
 import { LogOut, Trash2, User } from 'lucide-react'
 import { useEffect } from 'react'
 
@@ -54,11 +53,11 @@ function SettingsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
-      <div className="max-w-2xl mx-auto space-y-8">
-        <div className="space-y-2">
-          <h1 className="text-3xl font-bold">Settings</h1>
-          <p className="text-muted-foreground">Manage your account settings</p>
+    <div className="flex-1 overflow-auto">
+      <div className="max-w-2xl mx-auto px-6 py-8 space-y-8">
+        <div className="space-y-1">
+          <h1 className="text-2xl font-semibold tracking-tight">Settings</h1>
+          <p className="text-sm text-muted-foreground">Manage your account settings</p>
         </div>
 
         <Card>
@@ -66,17 +65,17 @@ function SettingsPage() {
             <CardTitle>Profile</CardTitle>
             <CardDescription>Your account information</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-6">
-            <div className="flex items-center gap-4">
-              <Avatar className="h-16 w-16">
+          <CardContent>
+            <div className="flex items-center gap-5">
+              <Avatar className="h-18 w-18">
                 <AvatarImage src={user.image ?? undefined} alt={user.name || 'User'} />
-                <AvatarFallback>
-                  <User className="h-8 w-8" />
+                <AvatarFallback className="bg-primary/10 text-primary text-lg font-semibold">
+                  {user.name?.charAt(0)?.toUpperCase() ?? <User className="h-8 w-8" />}
                 </AvatarFallback>
               </Avatar>
-              <div>
-                <p className="font-medium text-lg">{user.name}</p>
-                <p className="text-muted-foreground">{user.email}</p>
+              <div className="space-y-0.5">
+                <p className="text-lg font-semibold">{user.name}</p>
+                <p className="text-sm text-muted-foreground">{user.email}</p>
               </div>
             </div>
           </CardContent>
@@ -84,10 +83,10 @@ function SettingsPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Account Actions</CardTitle>
-            <CardDescription>Manage your account</CardDescription>
+            <CardTitle>Account</CardTitle>
+            <CardDescription>Manage your session</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent>
             <Button
               variant="outline"
               onClick={handleSignOut}
@@ -96,12 +95,20 @@ function SettingsPage() {
               <LogOut className="h-4 w-4" />
               Sign Out
             </Button>
+          </CardContent>
+        </Card>
 
-            <Separator />
-
+        <Card className="border-destructive/30">
+          <CardHeader>
+            <CardTitle className="text-destructive">Danger Zone</CardTitle>
+            <CardDescription>
+              Permanently delete your account and all associated data
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Button variant="destructive" className="w-full justify-start gap-2">
+                <Button variant="destructive" className="gap-2">
                   <Trash2 className="h-4 w-4" />
                   Delete Account
                 </Button>

@@ -15,8 +15,8 @@ export function getRouter() {
       })
       return (
         <div className="p-4">
-          <h1 className="text-xl font-bold text-red-600">Something went wrong</h1>
-          <pre className="mt-2 text-sm text-gray-600">{error?.message}</pre>
+          <h1 className="text-xl font-bold text-destructive">Something went wrong</h1>
+          <pre className="mt-2 text-sm text-muted-foreground">{error?.message}</pre>
         </div>
       )
     },

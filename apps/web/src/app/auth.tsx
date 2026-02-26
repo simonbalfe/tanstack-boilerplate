@@ -136,16 +136,16 @@ function AuthPageContent() {
 
   if (showVerification) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-muted/50 p-4">
-        <Card className="w-full max-w-[400px]">
-          <CardContent className="flex flex-col gap-6 pt-6 text-center">
+      <div className="flex min-h-screen items-center justify-center bg-muted p-4">
+        <Card className="w-full max-w-[400px] shadow-lg">
+          <CardContent className="flex flex-col gap-6 pt-8 pb-8 text-center">
             <div className="flex justify-center">
               <div className="rounded-full bg-primary/10 p-4">
                 <Mail className="h-8 w-8 text-primary" />
               </div>
             </div>
             <div className="space-y-2">
-              <h1 className="text-2xl font-bold tracking-tight">Check your email</h1>
+              <h1 className="text-2xl font-semibold tracking-tight">Check your email</h1>
               <p className="text-muted-foreground">
                 We&apos;ve sent a verification link to{' '}
                 <span className="font-medium text-foreground">{email}</span>. Please check your
@@ -167,7 +167,7 @@ function AuthPageContent() {
                 Didn&apos;t receive the email?{' '}
                 <Button
                   variant="link"
-                  className="p-0 h-auto font-semibold"
+                  className="p-0 h-auto font-medium"
                   onClick={handleResendVerification}
                   disabled={loading}
                 >
@@ -182,19 +182,25 @@ function AuthPageContent() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-muted/50 p-4">
-      <Card className="w-full max-w-[400px]">
-        <CardContent className="flex flex-col gap-6 pt-6">
+    <div className="flex min-h-screen items-center justify-center bg-muted p-4">
+      <Card className="w-full max-w-[400px] shadow-lg">
+        <CardContent className="flex flex-col gap-6 pt-8 pb-8">
           <div className="text-center space-y-3">
-            <h1 className="text-3xl font-bold tracking-tight">Welcome</h1>
-            <p className="text-base font-medium">
-              {isSignUp ? 'Create an account' : 'Sign in to your account'}
-            </p>
-            <p className="text-sm text-muted-foreground">
-              {isSignUp
-                ? 'Enter your details below to get started'
-                : 'Enter your details below to continue'}
-            </p>
+            <div className="flex justify-center">
+              <div className="flex size-10 items-center justify-center">
+                <img src="/logo.svg" alt="LaunchStack" className="size-8" />
+              </div>
+            </div>
+            <div className="space-y-1">
+              <h1 className="text-2xl font-semibold tracking-tight">
+                {isSignUp ? 'Create an account' : 'Welcome back'}
+              </h1>
+              <p className="text-sm text-muted-foreground">
+                {isSignUp
+                  ? 'Enter your details below to get started'
+                  : 'Enter your details below to continue'}
+              </p>
+            </div>
           </div>
 
           <Button
@@ -240,7 +246,7 @@ function AuthPageContent() {
                   {needsVerification && (
                     <Button
                       variant="link"
-                      className="p-0 h-auto font-semibold text-destructive-foreground underline"
+                      className="p-0 h-auto font-medium text-destructive-foreground underline"
                       onClick={handleResendVerification}
                       type="button"
                     >
@@ -333,7 +339,7 @@ function AuthPageContent() {
                 Already have an account?{' '}
                 <Button
                   variant="link"
-                  className="p-0 h-auto font-semibold"
+                  className="p-0 h-auto font-medium"
                   onClick={() => {
                     setIsSignUp(false)
                     setError(null)
@@ -347,7 +353,7 @@ function AuthPageContent() {
                 Don&apos;t have an account?{' '}
                 <Button
                   variant="link"
-                  className="p-0 h-auto font-semibold"
+                  className="p-0 h-auto font-medium"
                   onClick={() => {
                     setIsSignUp(true)
                     setError(null)

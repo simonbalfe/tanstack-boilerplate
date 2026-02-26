@@ -107,7 +107,7 @@ function ResetPasswordForm() {
 
   if (emailSent) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-muted/50 p-4">
+      <div className="flex min-h-screen items-center justify-center bg-muted p-4">
         <Card className="w-full max-w-md">
           <CardContent className="flex flex-col gap-6 pt-6 text-center">
             <div className="flex justify-center">
@@ -116,7 +116,7 @@ function ResetPasswordForm() {
               </div>
             </div>
             <div className="space-y-2">
-              <h1 className="text-2xl font-bold tracking-tight">Check your email</h1>
+              <h1 className="text-2xl font-semibold tracking-tight">Check your email</h1>
               <p className="text-muted-foreground">
                 We&apos;ve sent a password reset link to{' '}
                 <span className="font-medium text-foreground">{email}</span>
@@ -133,7 +133,7 @@ function ResetPasswordForm() {
 
   if (success) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-muted/50 p-4">
+      <div className="flex min-h-screen items-center justify-center bg-muted p-4">
         <Card className="w-full max-w-md">
           <CardHeader>
             <CardTitle>Password Reset Successful</CardTitle>
@@ -148,7 +148,7 @@ function ResetPasswordForm() {
 
   if (!token) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-muted/50 p-4">
+      <div className="flex min-h-screen items-center justify-center bg-muted p-4">
         <Card className="w-full max-w-md">
           <CardHeader>
             <CardTitle>Reset Password</CardTitle>
@@ -202,7 +202,7 @@ function ResetPasswordForm() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-muted/50 p-4">
+    <div className="flex min-h-screen items-center justify-center bg-muted p-4">
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle>Create New Password</CardTitle>
@@ -267,7 +267,7 @@ function ResetPassword() {
   return (
     <Suspense
       fallback={
-        <div className="flex min-h-screen items-center justify-center bg-muted/50">
+        <div className="flex min-h-screen items-center justify-center bg-muted">
           <Card className="w-full max-w-md">
             <CardHeader>
               <CardTitle>Loading...</CardTitle>
