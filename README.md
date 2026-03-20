@@ -230,3 +230,29 @@ Biome handles both (not ESLint/Prettier). 2-space indent, single quotes, no semi
 pnpm lint             # Check
 pnpm lint --write     # Auto-fix
 ```
+
+## Tech Stack
+
+| Category | Tool | Purpose |
+|---|---|---|
+| Monorepo | Turborepo, pnpm workspaces | Task orchestration, package management |
+| Language | TypeScript 5.9 | Type system across all packages |
+| Framework | TanStack Start (Vite + React 19) | Full-stack SSR framework |
+| Routing | TanStack Router | File-based routing |
+| Server State | TanStack Query | Data fetching and caching |
+| API | Hono | Lightweight API framework |
+| API Docs | hono-openapi, Scalar | OpenAPI spec and reference UI |
+| Database | PostgreSQL (Neon serverless) | Primary data store |
+| ORM | Drizzle ORM + Drizzle Kit | Type-safe queries, migrations |
+| Auth | BetterAuth | Google OAuth, email/password |
+| Payments | Stripe | Checkout, subscriptions, webhooks |
+| Email | Resend, React Email | Transactional emails with JSX templates |
+| Caching | Upstash Redis | Serverless Redis |
+| Styling | Tailwind CSS v4 | Utility-first CSS |
+| Components | shadcn/ui, Radix UI, Lucide | UI primitives, icons |
+| Charts | Recharts | Data visualization |
+| Validation | Zod v4 | Schema validation |
+| Analytics | PostHog | Product analytics |
+| Error Tracking | Sentry | Error monitoring |
+| Linting | Biome | Linter and formatter |
+| Deployment | Docker (Node 20), Cloudflare Workers | Container or edge deployment |
