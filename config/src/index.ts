@@ -10,18 +10,18 @@ const rootEnvPath = resolve(currentDir, '../../.env')
 loadEnv(existsSync(rootEnvPath) ? { path: rootEnvPath } : undefined)
 
 const serverEnvSchema = z.object({
-  NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
+  NODE_ENV: z.enum(['development', 'production', 'test']),
   DATABASE_URL: z.string().min(1),
   BETTER_AUTH_SECRET: z.string().min(1),
-  STRIPE_SECRET_KEY: z.string().default(''),
-  STRIPE_WEBHOOK_SECRET: z.string().default(''),
-  UPSTASH_REDIS_REST_URL: z.string().default(''),
-  UPSTASH_REDIS_REST_TOKEN: z.string().default(''),
-  RESEND_API_KEY: z.string().default(''),
-  RESEND_FROM: z.string().default(''),
-  GOOGLE_CLIENT_ID: z.string().default(''),
-  GOOGLE_CLIENT_SECRET: z.string().default(''),
-  VITE_APP_URL: z.string().url().default('http://localhost:3000'),
+  STRIPE_SECRET_KEY: z.string().min(1),
+  STRIPE_WEBHOOK_SECRET: z.string().min(1),
+  UPSTASH_REDIS_REST_URL: z.string().min(1),
+  UPSTASH_REDIS_REST_TOKEN: z.string().min(1),
+  RESEND_API_KEY: z.string().min(1),
+  RESEND_FROM: z.string().min(1),
+  GOOGLE_CLIENT_ID: z.string().min(1),
+  GOOGLE_CLIENT_SECRET: z.string().min(1),
+  VITE_APP_URL: z.url(),
 })
 
 const parsed = serverEnvSchema.safeParse(process.env)
