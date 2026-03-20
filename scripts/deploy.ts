@@ -75,11 +75,6 @@ async function deployDocker(env: Record<string, string>) {
 }
 
 async function deployCloudflare(env: Record<string, string>) {
-  if (!commandExists('wrangler')) {
-    red('wrangler not found. Run: pnpm add -g wrangler')
-    process.exit(1)
-  }
-
   bold('Building for Cloudflare Workers...')
   execSync('pnpm build', { cwd: resolve(ROOT_DIR, 'apps/web'), stdio: 'inherit' })
 

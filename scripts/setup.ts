@@ -78,13 +78,11 @@ async function main() {
     setEnvValue(ENV_FILE, 'VITE_APP_URL', 'http://localhost:3000')
 
     console.log()
-    bold('Database URL')
-    console.log('You need a PostgreSQL connection string.')
-    console.log('Get a free one at https://neon.tech in about 30 seconds.')
+    bold('Database')
+    console.log('Get a free PostgreSQL database at https://neon.tech')
     console.log()
 
     const dbUrl = await prompt('Paste your DATABASE_URL: ')
-
     if (!dbUrl) {
       yellow("No DATABASE_URL provided. You'll need to add it to .env before running.")
     } else {
